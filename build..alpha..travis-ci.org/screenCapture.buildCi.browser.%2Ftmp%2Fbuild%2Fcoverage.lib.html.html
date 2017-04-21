@@ -1,0 +1,1105 @@
+<html lang="en"><head>
+    <title>Code coverage report for node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits2/Audits2Panel.js</title>
+    <meta charset="utf-8">
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Arial, Helvetica;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            height: 160px;
+            padding: 0 1em 0 1em;
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 170px;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { color: #000; }
+        div.coverage-summary a:visited { color: #333; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1 style="font-weight: bold;">
+        <a href="https://github.com/npmtest/node-npmtest-chrome-devtools-frontend">npmtest-chrome-devtools-frontend (v0.0.1)</a>
+    </h1>
+    <h1>Code coverage report for <span class="entity">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits2/Audits2Panel.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">0.83% <small>(1 / 121)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0% <small>(0 / 20)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">0.88% <small>(1 / 113)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../../../../index.html">All files</a> » <a href="index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits2/</a> » Audits2Panel.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tbody><tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Copyright (c) 2016 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+&nbsp;
+/**
+ * @typedef {{
+ *     lighthouseVersion: !string,
+ *     generatedTime: !string,
+ *     initialUrl: !string,
+ *     url: !string,
+ *     audits: ?Object,
+ *     aggregations: !Array&lt;*&gt;
+ * }}
+ */
+Audits2.LighthouseResult;
+&nbsp;
+/**
+ * @typedef {{
+ *     blobUrl: !string,
+ *     result: !Audits2.LighthouseResult
+ * }}
+ */
+<span class="cstat-no" title="statement not covered">Audits2.WorkerResult;</span>
+&nbsp;
+/**
+ * @unrestricted
+ */
+<span class="cstat-no" title="statement not covered">Audits2.Audits2Panel = class extends UI.Panel {</span>
+  constructor<span class="fstat-no" title="function not covered">() {</span>
+<span class="cstat-no" title="statement not covered">    super('audits2');</span>
+<span class="cstat-no" title="statement not covered">    this.setHideOnDetach();</span>
+<span class="cstat-no" title="statement not covered">    this.registerRequiredCSS('audits2/audits2Panel.css');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered">    this._protocolService = new Audits2.ProtocolService();</span>
+<span class="cstat-no" title="statement not covered">    this._protocolService.registerStatusCallback(msg =&gt; <span class="cstat-no" title="statement not covered">this._updateStatus(Common.UIString(msg)))</span>;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered">    this._settings = Audits2.Audits2Panel.Presets.map(preset =&gt; {</span>
+<span class="cstat-no" title="statement not covered">      const setting = Common.settings.createSetting(preset.id, true);</span>
+<span class="cstat-no" title="statement not covered">      setting.setTitle(Common.UIString(preset.description));</span>
+<span class="cstat-no" title="statement not covered">      return setting;</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered">    var auditsViewElement = this.contentElement.createChild('div', 'hbox audits2-view');</span>
+<span class="cstat-no" title="statement not covered">    this._resultsView = this.contentElement.createChild('div', 'vbox results-view');</span>
+<span class="cstat-no" title="statement not covered">    auditsViewElement.createChild('div', 'audits2-logo');</span>
+<span class="cstat-no" title="statement not covered">    this._createLauncherUI(auditsViewElement);</span>
+  }
+&nbsp;
+  _reset<span class="fstat-no" title="function not covered">() {</span>
+<span class="cstat-no" title="statement not covered">    this.contentElement.classList.remove('show-results');</span>
+<span class="cstat-no" title="statement not covered">    this._resultsView.removeChildren();</span>
+  }
+&nbsp;
+  /**
+   * @param {!Element} auditsViewElement
+   */
+  _createLauncherUI<span class="fstat-no" title="function not covered">(auditsViewElement) {</span>
+<span class="cstat-no" title="statement not covered">    var uiElement = auditsViewElement.createChild('div');</span>
+<span class="cstat-no" title="statement not covered">    var headerElement = uiElement.createChild('header');</span>
+<span class="cstat-no" title="statement not covered">    headerElement.createChild('p').textContent = Common.UIString(</span>
+        'Audits will analyze the page against modern development best practices and collect useful performance metrics and diagnostics. Select audits to collect:');
+<span class="cstat-no" title="statement not covered">    uiElement.appendChild(headerElement);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered">    var auditSelectorForm = uiElement.createChild('form', 'audits2-form');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered">    this._settings</span>
+      .map(setting =&gt; <span class="cstat-no" title="statement not covered">new UI.ToolbarSettingCheckbox(setting))</span>
+      .forEach(checkbox =&gt; <span class="cstat-no" title="statement not covered">auditSelectorForm.appendChild(checkbox.element))</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered">    this._startButton = UI.createTextButton(</span>
+        Common.UIString('Audit this page'), this._startButtonClicked.bind(this), 'run-audit audit-btn');
+<span class="cstat-no" title="statement not covered">    auditSelectorForm.appendChild(this._startButton);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered">    this._statusView = this._createStatusView(uiElement);</span>
+  }
+&nbsp;
+  /**
+   * @param {!Element} launcherUIElement
+   * @return {!Element}
+   */
+  _createStatusView<span class="fstat-no" title="function not covered">(launcherUIElement) {</span>
+<span class="cstat-no" title="statement not covered">    var statusView = launcherUIElement.createChild('div', 'audits2-status hbox hidden');</span>
+<span class="cstat-no" title="statement not covered">    statusView.createChild('span', 'icon');</span>
+<span class="cstat-no" title="statement not covered">    this._statusElement = createElement('p');</span>
+<span class="cstat-no" title="statement not covered">    statusView.appendChild(this._statusElement);</span>
+<span class="cstat-no" title="statement not covered">    this._updateStatus(Common.UIString('Loading...'));</span>
+<span class="cstat-no" title="statement not covered">    return statusView;</span>
+  }
+&nbsp;
+  _start<span class="fstat-no" title="function not covered">() {</span>
+<span class="cstat-no" title="statement not covered">    this._inspectedURL = SDK.targetManager.mainTarget().inspectedURL();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered">    const aggregationIDs = this._settings.map(setting =&gt; {</span>
+<span class="cstat-no" title="statement not covered">      const preset = Audits2.Audits2Panel.Presets.find(preset =&gt; <span class="cstat-no" title="statement not covered">preset.id === setting.name)</span>;</span>
+<span class="cstat-no" title="statement not covered">      return {configID: preset.configID, value: setting.get()};</span>
+    }).filter(agg =&gt; <span class="cstat-no" title="statement not covered">!!agg.value)</span>.map(agg =&gt; <span class="cstat-no" title="statement not covered">agg.configID)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered">    return Promise.resolve()</span>
+        .then(_ =&gt; <span class="cstat-no" title="statement not covered">this._protocolService.attach())</span>
+        .then(_ =&gt; {
+<span class="cstat-no" title="statement not covered">          this._auditRunning = true;</span>
+<span class="cstat-no" title="statement not covered">          this._updateButton();</span>
+<span class="cstat-no" title="statement not covered">          this._updateStatus(Common.UIString('Loading...'));</span>
+        })
+        .then(_ =&gt; <span class="cstat-no" title="statement not covered">this._protocolService.startLighthouse(this._inspectedURL, aggregationIDs))</span>
+        .then(workerResult =&gt; {
+<span class="cstat-no" title="statement not covered">          this._finish(workerResult);</span>
+<span class="cstat-no" title="statement not covered">          return this._stop();</span>
+        });
+  }
+&nbsp;
+  /**
+   * @param {!Event} event
+   */
+  _startButtonClicked<span class="fstat-no" title="function not covered">(event) {</span>
+<span class="cstat-no" title="statement not covered">    if (this._auditRunning) {</span>
+<span class="cstat-no" title="statement not covered">      this._updateStatus(Common.UIString('Cancelling...'));</span>
+<span class="cstat-no" title="statement not covered">      this._stop();</span>
+<span class="cstat-no" title="statement not covered">      return;</span>
+    }
+<span class="cstat-no" title="statement not covered">    this._start();</span>
+  }
+&nbsp;
+  _updateButton<span class="fstat-no" title="function not covered">() {</span>
+<span class="cstat-no" title="statement not covered">    this._startButton.textContent =</span>
+        this._auditRunning ? Common.UIString('Cancel audit') : Common.UIString('Audit this page');
+<span class="cstat-no" title="statement not covered">    this._startButton.classList.toggle('started', this._auditRunning);</span>
+<span class="cstat-no" title="statement not covered">    this._statusView.classList.toggle('hidden', !this._auditRunning);</span>
+  }
+&nbsp;
+  /**
+   * @param {string} statusMessage
+   */
+  _updateStatus<span class="fstat-no" title="function not covered">(statusMessage) {</span>
+<span class="cstat-no" title="statement not covered">    this._statusElement.textContent = statusMessage;</span>
+  }
+&nbsp;
+  /**
+   * @return {!Promise&lt;undefined&gt;}
+   */
+  _stop<span class="fstat-no" title="function not covered">() {</span>
+<span class="cstat-no" title="statement not covered">    return this._protocolService.detach().then(_ =&gt; {</span>
+<span class="cstat-no" title="statement not covered">      this._auditRunning = false;</span>
+<span class="cstat-no" title="statement not covered">      this._updateButton();</span>
+<span class="cstat-no" title="statement not covered">      var resourceTreeModel = SDK.targetManager.mainTarget().model(SDK.ResourceTreeModel);</span>
+<span class="cstat-no" title="statement not covered">      if (resourceTreeModel &amp;&amp; this._inspectedURL !== SDK.targetManager.mainTarget().inspectedURL())</span>
+<span class="cstat-no" title="statement not covered">        resourceTreeModel.navigate(this._inspectedURL);</span>
+&nbsp;
+    });
+  }
+&nbsp;
+  /**
+   * @param {!Audits2.WorkerResult} workerResult
+   */
+  _finish<span class="fstat-no" title="function not covered">(workerResult) {</span>
+<span class="cstat-no" title="statement not covered">    if (workerResult === null) {</span>
+<span class="cstat-no" title="statement not covered">      this._updateStatus(Common.UIString('Auditing failed.'));</span>
+<span class="cstat-no" title="statement not covered">      return;</span>
+    }
+<span class="cstat-no" title="statement not covered">    this._resultsView.removeChildren();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered">    var url = workerResult.result.url;</span>
+<span class="cstat-no" title="statement not covered">    var timestamp = workerResult.result.generatedTime;</span>
+<span class="cstat-no" title="statement not covered">    this._createResultsBar(this._resultsView, url, timestamp);</span>
+<span class="cstat-no" title="statement not covered">    this._createIframe(this._resultsView, workerResult.blobUrl);</span>
+<span class="cstat-no" title="statement not covered">    this.contentElement.classList.add('show-results');</span>
+  }
+&nbsp;
+  /**
+   * @param {!Element} resultsView
+   * @param {string} blobUrl
+   */
+  _createIframe<span class="fstat-no" title="function not covered">(resultsView, blobUrl) {</span>
+<span class="cstat-no" title="statement not covered">    var iframeContainer = resultsView.createChild('div', 'iframe-container');</span>
+<span class="cstat-no" title="statement not covered">    var iframe = iframeContainer.createChild('iframe', 'fill');</span>
+<span class="cstat-no" title="statement not covered">    iframe.setAttribute('sandbox', 'allow-scripts allow-popups-to-escape-sandbox allow-popups');</span>
+<span class="cstat-no" title="statement not covered">    iframe.src = blobUrl;</span>
+  }
+&nbsp;
+  /**
+   * @param {!Element} resultsView
+   * @param {string} url
+   * @param {string} timestamp
+   */
+  _createResultsBar<span class="fstat-no" title="function not covered">(resultsView, url, timestamp) {</span>
+<span class="cstat-no" title="statement not covered">    var elem = resultsView.createChild('div', 'results-bar hbox');</span>
+<span class="cstat-no" title="statement not covered">    elem.createChild('div', 'audits2-logo audits2-logo-small');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered">    var summaryElem = elem.createChild('div', 'audits2-summary');</span>
+<span class="cstat-no" title="statement not covered">    var reportFor = summaryElem.createChild('span');</span>
+<span class="cstat-no" title="statement not covered">    reportFor.createTextChild('Report for ');</span>
+<span class="cstat-no" title="statement not covered">    var urlElem = reportFor.createChild('b');</span>
+<span class="cstat-no" title="statement not covered">    urlElem.textContent = url;</span>
+<span class="cstat-no" title="statement not covered">    var timeElem = summaryElem.createChild('span');</span>
+<span class="cstat-no" title="statement not covered">    timeElem.textContent =</span>
+        `Generated at ${new Date(timestamp).toLocaleDateString()} ${new Date(timestamp).toLocaleTimeString()}`;
+&nbsp;
+<span class="cstat-no" title="statement not covered">    var newAuditButton =</span>
+        UI.createTextButton(Common.UIString('New Audit'), this._reset.bind(this), 'new-audit audit-btn');
+<span class="cstat-no" title="statement not covered">    elem.appendChild(newAuditButton);</span>
+  }
+};
+&nbsp;
+/** @typedef {{id: string, configID: string, description: string}} */
+<span class="cstat-no" title="statement not covered">Audits2.Audits2Panel.Preset;</span>
+&nbsp;
+/** @type {!Array.&lt;!Audits2.Audits2Panel.Preset&gt;} */
+<span class="cstat-no" title="statement not covered">Audits2.Audits2Panel.Presets = [</span>
+  // configID maps to Lighthouse's config.aggregations[0].id value
+  {id: 'audits2_cat_pwa', configID: 'pwa', description: 'Progressive web app audits'},
+  {id: 'audits2_cat_perf', configID: 'perf', description: 'Performance metrics and diagnostics'},
+  {id: 'audits2_cat_best_practices', configID: 'bp', description: 'Modern web development best practices'},
+];
+&nbsp;
+<span class="cstat-no" title="statement not covered">Audits2.ProtocolService = class extends Common.Object {</span>
+  constructor<span class="fstat-no" title="function not covered">() {</span>
+<span class="cstat-no" title="statement not covered">    super();</span>
+    /** @type {?Protocol.InspectorBackend.Connection} */
+<span class="cstat-no" title="statement not covered">    this._rawConnection = null;</span>
+    /** @type {?Services.ServiceManager.Service} */
+<span class="cstat-no" title="statement not covered">    this._backend = null;</span>
+    /** @type {?Promise} */
+<span class="cstat-no" title="statement not covered">    this._backendPromise = null;</span>
+    /** @type {?function(string)} */
+<span class="cstat-no" title="statement not covered">    this._status = null;</span>
+  }
+&nbsp;
+  /**
+   * @return {!Promise&lt;undefined&gt;}
+   */
+  attach<span class="fstat-no" title="function not covered">() {</span>
+<span class="cstat-no" title="statement not covered">    return SDK.targetManager.interceptMainConnection(this._dispatchProtocolMessage.bind(this)).then(rawConnection =&gt; {</span>
+<span class="cstat-no" title="statement not covered">      this._rawConnection = rawConnection;</span>
+    });
+  }
+&nbsp;
+  /**
+   * @param {string} inspectedURL
+   * @param {!Array&lt;string&gt;} aggregationIDs
+   * @return {!Promise&lt;!Audits2.WorkerResult|undefined&gt;}
+   */
+  startLighthouse<span class="fstat-no" title="function not covered">(inspectedURL, aggregationIDs) {</span>
+<span class="cstat-no" title="statement not covered">    return this._send('start', {url: inspectedURL, aggregationIDs});</span>
+  }
+&nbsp;
+  /**
+   * @return {!Promise&lt;!Object|undefined&gt;}
+   */
+  detach<span class="fstat-no" title="function not covered">() {</span>
+<span class="cstat-no" title="statement not covered">    return Promise.resolve().then(() =&gt; <span class="cstat-no" title="statement not covered">this._send('stop'))</span>.then(() =&gt; <span class="cstat-no" title="statement not covered">this._backend.dispose())</span>.then(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered">      delete this._backend;</span>
+<span class="cstat-no" title="statement not covered">      delete this._backendPromise;</span>
+<span class="cstat-no" title="statement not covered">      return this._rawConnection.disconnect();</span>
+    });
+  }
+&nbsp;
+  /**
+   *  @param {function (string): undefined} callback
+   */
+  registerStatusCallback<span class="fstat-no" title="function not covered">(callback) {</span>
+<span class="cstat-no" title="statement not covered">    this._status = callback;</span>
+  }
+&nbsp;
+  /**
+   * @param {string} message
+   */
+  _dispatchProtocolMessage<span class="fstat-no" title="function not covered">(message) {</span>
+<span class="cstat-no" title="statement not covered">    this._send('dispatchProtocolMessage', {message: message});</span>
+  }
+&nbsp;
+  _initWorker<span class="fstat-no" title="function not covered">() {</span>
+<span class="cstat-no" title="statement not covered">    this._backendPromise =</span>
+        Services.serviceManager.createAppService('audits2_worker', 'Audits2Service', false).then(backend =&gt; {
+<span class="cstat-no" title="statement not covered">          if (this._backend)</span>
+<span class="cstat-no" title="statement not covered">            return;</span>
+<span class="cstat-no" title="statement not covered">          this._backend = backend;</span>
+<span class="cstat-no" title="statement not covered">          this._backend.on('statusUpdate', result =&gt; <span class="cstat-no" title="statement not covered">this._status(result.message))</span>;</span>
+<span class="cstat-no" title="statement not covered">          this._backend.on('sendProtocolMessage', result =&gt; <span class="cstat-no" title="statement not covered">this._rawConnection.sendMessage(result.message))</span>;</span>
+        });
+  }
+&nbsp;
+  /**
+   * @param {string} method
+   * @param {!Object=} params
+   * @return {!Promise&lt;!Audits2.WorkerResult|undefined&gt;}
+   */
+  _send<span class="fstat-no" title="function not covered">(method, params) {</span>
+<span class="cstat-no" title="statement not covered">    if (!this._backendPromise)</span>
+<span class="cstat-no" title="statement not covered">      this._initWorker();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered">    return this._backendPromise.then(_ =&gt; <span class="cstat-no" title="statement not covered">this._backend.send(method, params))</span>;</span>
+  }
+};
+&nbsp;
+&nbsp;</pre></td></tr>
+</tbody></table></pre>
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a> at Fri Apr 21 2017 09:36:47 GMT+0000 (UTC)</div>
+</div>
+
+
+</body></html>

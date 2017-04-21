@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for All files</title>
+    <meta charset="utf-8">
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Arial, Helvetica;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            height: 160px;
+            padding: 0 1em 0 1em;
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 170px;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { color: #000; }
+        div.coverage-summary a:visited { color: #333; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1 style="font-weight: bold;">
+        <a href="https://github.com/npmtest/node-npmtest-chrome-devtools-frontend">npmtest-chrome-devtools-frontend (v0.0.1)</a>
+    </h1>
+    <h1>Code coverage report for <span class="entity">All files</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">4.05% <small>(3427 / 84697)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0.5% <small>(209 / 41624)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0.6% <small>(87 / 14392)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">4.21% <small>(3400 / 80750)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric">26 statements, 1 function, 30 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"></div>
+</div>
+<div class="body">
+<div class="coverage-summary">
+<table>
+<thead>
+<tr>
+   <th data-col="file" data-fmt="html" data-html="true" class="file">File</th>
+   <th data-col="pic" data-type="number" data-fmt="html" data-html="true" class="pic"></th>
+   <th data-col="statements" data-type="number" data-fmt="pct" class="pct">Statements</th>
+   <th data-col="statements_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="branches" data-type="number" data-fmt="pct" class="pct">Branches</th>
+   <th data-col="branches_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="functions" data-type="number" data-fmt="pct" class="pct">Functions</th>
+   <th data-col="functions_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="lines" data-type="number" data-fmt="pct" class="pct">Lines</th>
+   <th data-col="lines_raw" data-type="number" data-fmt="html" class="abs"></th>
+</tr>
+</thead>
+<tbody><tr>
+	<td class="file high" data-value="node-npmtest-chrome-devtools-frontend/"><a href="node-npmtest-chrome-devtools-frontend/index.html">node-npmtest-chrome-devtools-frontend/</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="153" class="abs high">(153&nbsp;/&nbsp;153)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="126" class="abs high">(126&nbsp;/&nbsp;126)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="28" class="abs high">(28&nbsp;/&nbsp;28)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="153" class="abs high">(153&nbsp;/&nbsp;153)</td>
+	</tr>
+
+<tr>
+	<td class="file high" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="1" class="abs high">(1&nbsp;/&nbsp;1)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="0" class="abs high">(0&nbsp;/&nbsp;0)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="0" class="abs high">(0&nbsp;/&nbsp;0)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="1" class="abs high">(1&nbsp;/&nbsp;1)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/</a></td>
+	<td data-value="6.84" class="pic low"><span class="cover-fill" style="width: 6px;"></span><span class="cover-empty" style="width:94px;"></span></td>
+	<td data-value="6.84" class="pct low">6.84%</td>
+	<td data-value="775" class="abs low">(53&nbsp;/&nbsp;775)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="262" class="abs low">(0&nbsp;/&nbsp;262)</td>
+	<td data-value="0.26" class="pct low">0.26%</td>
+	<td data-value="390" class="abs low">(1&nbsp;/&nbsp;390)</td>
+	<td data-value="6.86" class="pct low">6.86%</td>
+	<td data-value="773" class="abs low">(53&nbsp;/&nbsp;773)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/accessibility/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/accessibility/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/accessibility/</a></td>
+	<td data-value="1.6" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.6" class="pct low">1.6%</td>
+	<td data-value="815" class="abs low">(13&nbsp;/&nbsp;815)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="358" class="abs low">(0&nbsp;/&nbsp;358)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="136" class="abs low">(0&nbsp;/&nbsp;136)</td>
+	<td data-value="1.61" class="pct low">1.61%</td>
+	<td data-value="809" class="abs low">(13&nbsp;/&nbsp;809)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/animation/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/animation/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/animation/</a></td>
+	<td data-value="1.99" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.99" class="pct low">1.99%</td>
+	<td data-value="854" class="abs low">(17&nbsp;/&nbsp;854)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="274" class="abs low">(0&nbsp;/&nbsp;274)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="170" class="abs low">(0&nbsp;/&nbsp;170)</td>
+	<td data-value="1.99" class="pct low">1.99%</td>
+	<td data-value="853" class="abs low">(17&nbsp;/&nbsp;853)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits/</a></td>
+	<td data-value="3.71" class="pic low"><span class="cover-fill" style="width: 3px;"></span><span class="cover-empty" style="width:97px;"></span></td>
+	<td data-value="3.71" class="pct low">3.71%</td>
+	<td data-value="1079" class="abs low">(40&nbsp;/&nbsp;1079)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="451" class="abs low">(0&nbsp;/&nbsp;451)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="183" class="abs low">(0&nbsp;/&nbsp;183)</td>
+	<td data-value="3.72" class="pct low">3.72%</td>
+	<td data-value="1076" class="abs low">(40&nbsp;/&nbsp;1076)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits2/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits2/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits2/</a></td>
+	<td data-value="0.83" class="pic low"><span class="cover-fill" style="width: 0px;"></span><span class="cover-empty" style="width:100px;"></span></td>
+	<td data-value="0.83" class="pct low">0.83%</td>
+	<td data-value="121" class="abs low">(1&nbsp;/&nbsp;121)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="14" class="abs low">(0&nbsp;/&nbsp;14)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="20" class="abs low">(0&nbsp;/&nbsp;20)</td>
+	<td data-value="0.88" class="pct low">0.88%</td>
+	<td data-value="113" class="abs low">(1&nbsp;/&nbsp;113)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits2_worker/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits2_worker/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/audits2_worker/</a></td>
+	<td data-value="8.7" class="pic low"><span class="cover-fill" style="width: 8px;"></span><span class="cover-empty" style="width:92px;"></span></td>
+	<td data-value="8.7" class="pct low">8.7%</td>
+	<td data-value="23" class="abs low">(2&nbsp;/&nbsp;23)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="4" class="abs low">(0&nbsp;/&nbsp;4)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="12" class="abs low">(0&nbsp;/&nbsp;12)</td>
+	<td data-value="8.7" class="pct low">8.7%</td>
+	<td data-value="23" class="abs low">(2&nbsp;/&nbsp;23)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/bindings/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/bindings/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/bindings/</a></td>
+	<td data-value="2.34" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.34" class="pct low">2.34%</td>
+	<td data-value="2050" class="abs low">(48&nbsp;/&nbsp;2050)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="926" class="abs low">(0&nbsp;/&nbsp;926)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="449" class="abs low">(0&nbsp;/&nbsp;449)</td>
+	<td data-value="2.35" class="pct low">2.35%</td>
+	<td data-value="2046" class="abs low">(48&nbsp;/&nbsp;2046)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/changes/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/changes/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/changes/</a></td>
+	<td data-value="2.7" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.7" class="pct low">2.7%</td>
+	<td data-value="296" class="abs low">(8&nbsp;/&nbsp;296)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="141" class="abs low">(0&nbsp;/&nbsp;141)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="28" class="abs low">(0&nbsp;/&nbsp;28)</td>
+	<td data-value="2.74" class="pct low">2.74%</td>
+	<td data-value="292" class="abs low">(8&nbsp;/&nbsp;292)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm/</a></td>
+	<td data-value="6.18" class="pic low"><span class="cover-fill" style="width: 6px;"></span><span class="cover-empty" style="width:94px;"></span></td>
+	<td data-value="6.18" class="pct low">6.18%</td>
+	<td data-value="7413" class="abs low">(458&nbsp;/&nbsp;7413)</td>
+	<td data-value="0.44" class="pct low">0.44%</td>
+	<td data-value="5475" class="abs low">(24&nbsp;/&nbsp;5475)</td>
+	<td data-value="0.91" class="pct low">0.91%</td>
+	<td data-value="993" class="abs low">(9&nbsp;/&nbsp;993)</td>
+	<td data-value="7.25" class="pct low">7.25%</td>
+	<td data-value="6313" class="abs low">(458&nbsp;/&nbsp;6313)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm_headless/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm_headless/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm_headless/</a></td>
+	<td data-value="5.56" class="pic low"><span class="cover-fill" style="width: 5px;"></span><span class="cover-empty" style="width:95px;"></span></td>
+	<td data-value="5.56" class="pct low">5.56%</td>
+	<td data-value="126" class="abs low">(7&nbsp;/&nbsp;126)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="69" class="abs low">(0&nbsp;/&nbsp;69)</td>
+	<td data-value="6.9" class="pct low">6.9%</td>
+	<td data-value="29" class="abs low">(2&nbsp;/&nbsp;29)</td>
+	<td data-value="6.54" class="pct low">6.54%</td>
+	<td data-value="107" class="abs low">(7&nbsp;/&nbsp;107)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm_modes/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm_modes/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm_modes/</a></td>
+	<td data-value="6.63" class="pic low"><span class="cover-fill" style="width: 6px;"></span><span class="cover-empty" style="width:94px;"></span></td>
+	<td data-value="6.63" class="pct low">6.63%</td>
+	<td data-value="1690" class="abs low">(112&nbsp;/&nbsp;1690)</td>
+	<td data-value="1.68" class="pct low">1.68%</td>
+	<td data-value="1603" class="abs low">(27&nbsp;/&nbsp;1603)</td>
+	<td data-value="4.84" class="pct low">4.84%</td>
+	<td data-value="186" class="abs low">(9&nbsp;/&nbsp;186)</td>
+	<td data-value="7.2" class="pct low">7.2%</td>
+	<td data-value="1555" class="abs low">(112&nbsp;/&nbsp;1555)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm_web_modes/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm_web_modes/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cm_web_modes/</a></td>
+	<td data-value="9.12" class="pic low"><span class="cover-fill" style="width: 9px;"></span><span class="cover-empty" style="width:91px;"></span></td>
+	<td data-value="9.12" class="pct low">9.12%</td>
+	<td data-value="1448" class="abs low">(132&nbsp;/&nbsp;1448)</td>
+	<td data-value="1.15" class="pct low">1.15%</td>
+	<td data-value="1299" class="abs low">(15&nbsp;/&nbsp;1299)</td>
+	<td data-value="2.72" class="pct low">2.72%</td>
+	<td data-value="184" class="abs low">(5&nbsp;/&nbsp;184)</td>
+	<td data-value="10.91" class="pct low">10.91%</td>
+	<td data-value="1210" class="abs low">(132&nbsp;/&nbsp;1210)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/color_picker/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/color_picker/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/color_picker/</a></td>
+	<td data-value="2.11" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.11" class="pct low">2.11%</td>
+	<td data-value="522" class="abs low">(11&nbsp;/&nbsp;522)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="190" class="abs low">(0&nbsp;/&nbsp;190)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="52" class="abs low">(0&nbsp;/&nbsp;52)</td>
+	<td data-value="2.11" class="pct low">2.11%</td>
+	<td data-value="522" class="abs low">(11&nbsp;/&nbsp;522)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/common/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/common/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/common/</a></td>
+	<td data-value="2.6" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.6" class="pct low">2.6%</td>
+	<td data-value="1307" class="abs low">(34&nbsp;/&nbsp;1307)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="562" class="abs low">(0&nbsp;/&nbsp;562)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="292" class="abs low">(0&nbsp;/&nbsp;292)</td>
+	<td data-value="2.62" class="pct low">2.62%</td>
+	<td data-value="1296" class="abs low">(34&nbsp;/&nbsp;1296)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/components/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/components/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/components/</a></td>
+	<td data-value="2.8" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.8" class="pct low">2.8%</td>
+	<td data-value="965" class="abs low">(27&nbsp;/&nbsp;965)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="490" class="abs low">(0&nbsp;/&nbsp;490)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="125" class="abs low">(0&nbsp;/&nbsp;125)</td>
+	<td data-value="2.82" class="pct low">2.82%</td>
+	<td data-value="957" class="abs low">(27&nbsp;/&nbsp;957)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/console/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/console/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/console/</a></td>
+	<td data-value="1.87" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.87" class="pct low">1.87%</td>
+	<td data-value="1709" class="abs low">(32&nbsp;/&nbsp;1709)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="863" class="abs low">(0&nbsp;/&nbsp;863)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="248" class="abs low">(0&nbsp;/&nbsp;248)</td>
+	<td data-value="1.88" class="pct low">1.88%</td>
+	<td data-value="1706" class="abs low">(32&nbsp;/&nbsp;1706)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/console_model/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/console_model/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/console_model/</a></td>
+	<td data-value="1.41" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.41" class="pct low">1.41%</td>
+	<td data-value="213" class="abs low">(3&nbsp;/&nbsp;213)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="179" class="abs low">(0&nbsp;/&nbsp;179)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="38" class="abs low">(0&nbsp;/&nbsp;38)</td>
+	<td data-value="1.41" class="pct low">1.41%</td>
+	<td data-value="213" class="abs low">(3&nbsp;/&nbsp;213)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cookie_table/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cookie_table/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/cookie_table/</a></td>
+	<td data-value="2.75" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.75" class="pct low">2.75%</td>
+	<td data-value="182" class="abs low">(5&nbsp;/&nbsp;182)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="131" class="abs low">(0&nbsp;/&nbsp;131)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="29" class="abs low">(0&nbsp;/&nbsp;29)</td>
+	<td data-value="2.79" class="pct low">2.79%</td>
+	<td data-value="179" class="abs low">(5&nbsp;/&nbsp;179)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/data_grid/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/data_grid/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/data_grid/</a></td>
+	<td data-value="0.47" class="pic low"><span class="cover-fill" style="width: 0px;"></span><span class="cover-empty" style="width:100px;"></span></td>
+	<td data-value="0.47" class="pct low">0.47%</td>
+	<td data-value="1276" class="abs low">(6&nbsp;/&nbsp;1276)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="747" class="abs low">(0&nbsp;/&nbsp;747)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="173" class="abs low">(0&nbsp;/&nbsp;173)</td>
+	<td data-value="0.47" class="pct low">0.47%</td>
+	<td data-value="1274" class="abs low">(6&nbsp;/&nbsp;1274)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/devices/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/devices/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/devices/</a></td>
+	<td data-value="2.56" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.56" class="pct low">2.56%</td>
+	<td data-value="352" class="abs low">(9&nbsp;/&nbsp;352)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="115" class="abs low">(0&nbsp;/&nbsp;115)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="34" class="abs low">(0&nbsp;/&nbsp;34)</td>
+	<td data-value="2.56" class="pct low">2.56%</td>
+	<td data-value="352" class="abs low">(9&nbsp;/&nbsp;352)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/diff/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/diff/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/diff/</a></td>
+	<td data-value="9.29" class="pic low"><span class="cover-fill" style="width: 9px;"></span><span class="cover-empty" style="width:91px;"></span></td>
+	<td data-value="9.29" class="pct low">9.29%</td>
+	<td data-value="560" class="abs low">(52&nbsp;/&nbsp;560)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="533" class="abs low">(0&nbsp;/&nbsp;533)</td>
+	<td data-value="2.22" class="pct low">2.22%</td>
+	<td data-value="45" class="abs low">(1&nbsp;/&nbsp;45)</td>
+	<td data-value="40.22" class="pct low">40.22%</td>
+	<td data-value="92" class="abs low">(37&nbsp;/&nbsp;92)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/dom_extension/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/dom_extension/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/dom_extension/</a></td>
+	<td data-value="2.83" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.83" class="pct low">2.83%</td>
+	<td data-value="353" class="abs low">(10&nbsp;/&nbsp;353)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="224" class="abs low">(0&nbsp;/&nbsp;224)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="59" class="abs low">(0&nbsp;/&nbsp;59)</td>
+	<td data-value="2.84" class="pct low">2.84%</td>
+	<td data-value="352" class="abs low">(10&nbsp;/&nbsp;352)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/elements/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/elements/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/elements/</a></td>
+	<td data-value="3.09" class="pic low"><span class="cover-fill" style="width: 3px;"></span><span class="cover-empty" style="width:97px;"></span></td>
+	<td data-value="3.09" class="pct low">3.09%</td>
+	<td data-value="3491" class="abs low">(108&nbsp;/&nbsp;3491)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="1865" class="abs low">(0&nbsp;/&nbsp;1865)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="458" class="abs low">(0&nbsp;/&nbsp;458)</td>
+	<td data-value="3.1" class="pct low">3.1%</td>
+	<td data-value="3480" class="abs low">(108&nbsp;/&nbsp;3480)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/emulation/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/emulation/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/emulation/</a></td>
+	<td data-value="2.51" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.51" class="pct low">2.51%</td>
+	<td data-value="1315" class="abs low">(33&nbsp;/&nbsp;1315)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="526" class="abs low">(0&nbsp;/&nbsp;526)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="193" class="abs low">(0&nbsp;/&nbsp;193)</td>
+	<td data-value="2.51" class="pct low">2.51%</td>
+	<td data-value="1313" class="abs low">(33&nbsp;/&nbsp;1313)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/event_listeners/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/event_listeners/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/event_listeners/</a></td>
+	<td data-value="11.65" class="pic low"><span class="cover-fill" style="width: 11px;"></span><span class="cover-empty" style="width:89px;"></span></td>
+	<td data-value="11.65" class="pct low">11.65%</td>
+	<td data-value="352" class="abs low">(41&nbsp;/&nbsp;352)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="166" class="abs low">(0&nbsp;/&nbsp;166)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="57" class="abs low">(0&nbsp;/&nbsp;57)</td>
+	<td data-value="11.65" class="pct low">11.65%</td>
+	<td data-value="352" class="abs low">(41&nbsp;/&nbsp;352)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/extensions/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/extensions/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/extensions/</a></td>
+	<td data-value="7.39" class="pic low"><span class="cover-fill" style="width: 7px;"></span><span class="cover-empty" style="width:93px;"></span></td>
+	<td data-value="7.39" class="pct low">7.39%</td>
+	<td data-value="947" class="abs low">(70&nbsp;/&nbsp;947)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="340" class="abs low">(0&nbsp;/&nbsp;340)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="229" class="abs low">(0&nbsp;/&nbsp;229)</td>
+	<td data-value="7.4" class="pct low">7.4%</td>
+	<td data-value="946" class="abs low">(70&nbsp;/&nbsp;946)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/formatter_worker/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/formatter_worker/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/formatter_worker/</a></td>
+	<td data-value="3.53" class="pic low"><span class="cover-fill" style="width: 3px;"></span><span class="cover-empty" style="width:97px;"></span></td>
+	<td data-value="3.53" class="pct low">3.53%</td>
+	<td data-value="991" class="abs low">(35&nbsp;/&nbsp;991)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="765" class="abs low">(0&nbsp;/&nbsp;765)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="104" class="abs low">(0&nbsp;/&nbsp;104)</td>
+	<td data-value="3.54" class="pct low">3.54%</td>
+	<td data-value="989" class="abs low">(35&nbsp;/&nbsp;989)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/gonzales/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/gonzales/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/gonzales/</a></td>
+	<td data-value="9.35" class="pic low"><span class="cover-fill" style="width: 9px;"></span><span class="cover-empty" style="width:91px;"></span></td>
+	<td data-value="9.35" class="pct low">9.35%</td>
+	<td data-value="6236" class="abs low">(583&nbsp;/&nbsp;6236)</td>
+	<td data-value="0.33" class="pct low">0.33%</td>
+	<td data-value="3372" class="abs low">(11&nbsp;/&nbsp;3372)</td>
+	<td data-value="3.63" class="pct low">3.63%</td>
+	<td data-value="744" class="abs low">(27&nbsp;/&nbsp;744)</td>
+	<td data-value="12.36" class="pct low">12.36%</td>
+	<td data-value="4619" class="abs low">(571&nbsp;/&nbsp;4619)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/heap_snapshot_model/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/heap_snapshot_model/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/heap_snapshot_model/</a></td>
+	<td data-value="0.89" class="pic low"><span class="cover-fill" style="width: 0px;"></span><span class="cover-empty" style="width:100px;"></span></td>
+	<td data-value="0.89" class="pct low">0.89%</td>
+	<td data-value="112" class="abs low">(1&nbsp;/&nbsp;112)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="3" class="abs low">(0&nbsp;/&nbsp;3)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="18" class="abs low">(0&nbsp;/&nbsp;18)</td>
+	<td data-value="0.89" class="pct low">0.89%</td>
+	<td data-value="112" class="abs low">(1&nbsp;/&nbsp;112)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/heap_snapshot_worker/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/heap_snapshot_worker/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/heap_snapshot_worker/</a></td>
+	<td data-value="1.42" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.42" class="pct low">1.42%</td>
+	<td data-value="1764" class="abs low">(25&nbsp;/&nbsp;1764)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="561" class="abs low">(0&nbsp;/&nbsp;561)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="272" class="abs low">(0&nbsp;/&nbsp;272)</td>
+	<td data-value="1.42" class="pct low">1.42%</td>
+	<td data-value="1763" class="abs low">(25&nbsp;/&nbsp;1763)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/help/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/help/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/help/</a></td>
+	<td data-value="4.76" class="pic low"><span class="cover-fill" style="width: 4px;"></span><span class="cover-empty" style="width:96px;"></span></td>
+	<td data-value="4.76" class="pct low">4.76%</td>
+	<td data-value="63" class="abs low">(3&nbsp;/&nbsp;63)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="12" class="abs low">(0&nbsp;/&nbsp;12)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="7" class="abs low">(0&nbsp;/&nbsp;7)</td>
+	<td data-value="4.84" class="pct low">4.84%</td>
+	<td data-value="62" class="abs low">(3&nbsp;/&nbsp;62)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/host/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/host/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/host/</a></td>
+	<td data-value="7.73" class="pic low"><span class="cover-fill" style="width: 7px;"></span><span class="cover-empty" style="width:93px;"></span></td>
+	<td data-value="7.73" class="pct low">7.73%</td>
+	<td data-value="181" class="abs low">(14&nbsp;/&nbsp;181)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="58" class="abs low">(0&nbsp;/&nbsp;58)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="125" class="abs low">(0&nbsp;/&nbsp;125)</td>
+	<td data-value="7.73" class="pct low">7.73%</td>
+	<td data-value="181" class="abs low">(14&nbsp;/&nbsp;181)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/inline_editor/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/inline_editor/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/inline_editor/</a></td>
+	<td data-value="1.16" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.16" class="pct low">1.16%</td>
+	<td data-value="691" class="abs low">(8&nbsp;/&nbsp;691)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="252" class="abs low">(0&nbsp;/&nbsp;252)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="102" class="abs low">(0&nbsp;/&nbsp;102)</td>
+	<td data-value="1.16" class="pct low">1.16%</td>
+	<td data-value="688" class="abs low">(8&nbsp;/&nbsp;688)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/layer_viewer/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/layer_viewer/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/layer_viewer/</a></td>
+	<td data-value="0.86" class="pic low"><span class="cover-fill" style="width: 0px;"></span><span class="cover-empty" style="width:100px;"></span></td>
+	<td data-value="0.86" class="pct low">0.86%</td>
+	<td data-value="1167" class="abs low">(10&nbsp;/&nbsp;1167)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="428" class="abs low">(0&nbsp;/&nbsp;428)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="185" class="abs low">(0&nbsp;/&nbsp;185)</td>
+	<td data-value="0.86" class="pct low">0.86%</td>
+	<td data-value="1161" class="abs low">(10&nbsp;/&nbsp;1161)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/layers/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/layers/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/layers/</a></td>
+	<td data-value="3.09" class="pic low"><span class="cover-fill" style="width: 3px;"></span><span class="cover-empty" style="width:97px;"></span></td>
+	<td data-value="3.09" class="pct low">3.09%</td>
+	<td data-value="259" class="abs low">(8&nbsp;/&nbsp;259)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="106" class="abs low">(0&nbsp;/&nbsp;106)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="68" class="abs low">(0&nbsp;/&nbsp;68)</td>
+	<td data-value="3.1" class="pct low">3.1%</td>
+	<td data-value="258" class="abs low">(8&nbsp;/&nbsp;258)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/main/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/main/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/main/</a></td>
+	<td data-value="2.65" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.65" class="pct low">2.65%</td>
+	<td data-value="603" class="abs low">(16&nbsp;/&nbsp;603)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="210" class="abs low">(0&nbsp;/&nbsp;210)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="90" class="abs low">(0&nbsp;/&nbsp;90)</td>
+	<td data-value="2.68" class="pct low">2.68%</td>
+	<td data-value="597" class="abs low">(16&nbsp;/&nbsp;597)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/network/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/network/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/network/</a></td>
+	<td data-value="1.69" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.69" class="pct low">1.69%</td>
+	<td data-value="3851" class="abs low">(65&nbsp;/&nbsp;3851)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="1557" class="abs low">(0&nbsp;/&nbsp;1557)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="578" class="abs low">(0&nbsp;/&nbsp;578)</td>
+	<td data-value="1.7" class="pct low">1.7%</td>
+	<td data-value="3816" class="abs low">(65&nbsp;/&nbsp;3816)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/network_conditions/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/network_conditions/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/network_conditions/</a></td>
+	<td data-value="5.53" class="pic low"><span class="cover-fill" style="width: 5px;"></span><span class="cover-empty" style="width:95px;"></span></td>
+	<td data-value="5.53" class="pct low">5.53%</td>
+	<td data-value="253" class="abs low">(14&nbsp;/&nbsp;253)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="76" class="abs low">(0&nbsp;/&nbsp;76)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="35" class="abs low">(0&nbsp;/&nbsp;35)</td>
+	<td data-value="5.56" class="pct low">5.56%</td>
+	<td data-value="252" class="abs low">(14&nbsp;/&nbsp;252)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/network_group_lookup/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/network_group_lookup/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/network_group_lookup/</a></td>
+	<td data-value="1.75" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.75" class="pct low">1.75%</td>
+	<td data-value="57" class="abs low">(1&nbsp;/&nbsp;57)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="38" class="abs low">(0&nbsp;/&nbsp;38)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="8" class="abs low">(0&nbsp;/&nbsp;8)</td>
+	<td data-value="1.75" class="pct low">1.75%</td>
+	<td data-value="57" class="abs low">(1&nbsp;/&nbsp;57)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/object_ui/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/object_ui/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/object_ui/</a></td>
+	<td data-value="3.87" class="pic low"><span class="cover-fill" style="width: 3px;"></span><span class="cover-empty" style="width:97px;"></span></td>
+	<td data-value="3.87" class="pct low">3.87%</td>
+	<td data-value="1190" class="abs low">(46&nbsp;/&nbsp;1190)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="723" class="abs low">(0&nbsp;/&nbsp;723)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="133" class="abs low">(0&nbsp;/&nbsp;133)</td>
+	<td data-value="3.91" class="pct low">3.91%</td>
+	<td data-value="1176" class="abs low">(46&nbsp;/&nbsp;1176)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/perf_ui/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/perf_ui/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/perf_ui/</a></td>
+	<td data-value="1.27" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.27" class="pct low">1.27%</td>
+	<td data-value="1575" class="abs low">(20&nbsp;/&nbsp;1575)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="565" class="abs low">(0&nbsp;/&nbsp;565)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="224" class="abs low">(0&nbsp;/&nbsp;224)</td>
+	<td data-value="1.27" class="pct low">1.27%</td>
+	<td data-value="1574" class="abs low">(20&nbsp;/&nbsp;1574)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/persistence/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/persistence/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/persistence/</a></td>
+	<td data-value="3.37" class="pic low"><span class="cover-fill" style="width: 3px;"></span><span class="cover-empty" style="width:97px;"></span></td>
+	<td data-value="3.37" class="pct low">3.37%</td>
+	<td data-value="652" class="abs low">(22&nbsp;/&nbsp;652)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="246" class="abs low">(0&nbsp;/&nbsp;246)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="118" class="abs low">(0&nbsp;/&nbsp;118)</td>
+	<td data-value="3.44" class="pct low">3.44%</td>
+	<td data-value="640" class="abs low">(22&nbsp;/&nbsp;640)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/platform/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/platform/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/platform/</a></td>
+	<td data-value="16.61" class="pic low"><span class="cover-fill" style="width: 16px;"></span><span class="cover-empty" style="width:84px;"></span></td>
+	<td data-value="16.61" class="pct low">16.61%</td>
+	<td data-value="602" class="abs low">(100&nbsp;/&nbsp;602)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="279" class="abs low">(0&nbsp;/&nbsp;279)</td>
+	<td data-value="1.82" class="pct low">1.82%</td>
+	<td data-value="110" class="abs low">(2&nbsp;/&nbsp;110)</td>
+	<td data-value="16.69" class="pct low">16.69%</td>
+	<td data-value="599" class="abs low">(100&nbsp;/&nbsp;599)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/product_registry/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/product_registry/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/product_registry/</a></td>
+	<td data-value="4.08" class="pic low"><span class="cover-fill" style="width: 4px;"></span><span class="cover-empty" style="width:96px;"></span></td>
+	<td data-value="4.08" class="pct low">4.08%</td>
+	<td data-value="49" class="abs low">(2&nbsp;/&nbsp;49)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="24" class="abs low">(0&nbsp;/&nbsp;24)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="5" class="abs low">(0&nbsp;/&nbsp;5)</td>
+	<td data-value="4.08" class="pct low">4.08%</td>
+	<td data-value="49" class="abs low">(2&nbsp;/&nbsp;49)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/profiler/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/profiler/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/profiler/</a></td>
+	<td data-value="2.34" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.34" class="pct low">2.34%</td>
+	<td data-value="2393" class="abs low">(56&nbsp;/&nbsp;2393)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="822" class="abs low">(0&nbsp;/&nbsp;822)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="539" class="abs low">(0&nbsp;/&nbsp;539)</td>
+	<td data-value="2.34" class="pct low">2.34%</td>
+	<td data-value="2391" class="abs low">(56&nbsp;/&nbsp;2391)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/protocol/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/protocol/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/protocol/</a></td>
+	<td data-value="3.95" class="pic low"><span class="cover-fill" style="width: 3px;"></span><span class="cover-empty" style="width:97px;"></span></td>
+	<td data-value="3.95" class="pct low">3.95%</td>
+	<td data-value="253" class="abs low">(10&nbsp;/&nbsp;253)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="119" class="abs low">(0&nbsp;/&nbsp;119)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="54" class="abs low">(0&nbsp;/&nbsp;54)</td>
+	<td data-value="3.95" class="pct low">3.95%</td>
+	<td data-value="253" class="abs low">(10&nbsp;/&nbsp;253)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/quick_open/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/quick_open/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/quick_open/</a></td>
+	<td data-value="2.23" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.23" class="pct low">2.23%</td>
+	<td data-value="403" class="abs low">(9&nbsp;/&nbsp;403)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="151" class="abs low">(0&nbsp;/&nbsp;151)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="88" class="abs low">(0&nbsp;/&nbsp;88)</td>
+	<td data-value="2.25" class="pct low">2.25%</td>
+	<td data-value="400" class="abs low">(9&nbsp;/&nbsp;400)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/resources/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/resources/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/resources/</a></td>
+	<td data-value="1.67" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.67" class="pct low">1.67%</td>
+	<td data-value="2331" class="abs low">(39&nbsp;/&nbsp;2331)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="723" class="abs low">(0&nbsp;/&nbsp;723)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="438" class="abs low">(0&nbsp;/&nbsp;438)</td>
+	<td data-value="1.68" class="pct low">1.68%</td>
+	<td data-value="2318" class="abs low">(39&nbsp;/&nbsp;2318)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/sass/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/sass/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/sass/</a></td>
+	<td data-value="2.95" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.95" class="pct low">2.95%</td>
+	<td data-value="611" class="abs low">(18&nbsp;/&nbsp;611)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="226" class="abs low">(0&nbsp;/&nbsp;226)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="102" class="abs low">(0&nbsp;/&nbsp;102)</td>
+	<td data-value="3" class="pct low">3%</td>
+	<td data-value="601" class="abs low">(18&nbsp;/&nbsp;601)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/screencast/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/screencast/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/screencast/</a></td>
+	<td data-value="2.2" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.2" class="pct low">2.2%</td>
+	<td data-value="91" class="abs low">(2&nbsp;/&nbsp;91)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="46" class="abs low">(0&nbsp;/&nbsp;46)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="14" class="abs low">(0&nbsp;/&nbsp;14)</td>
+	<td data-value="2.2" class="pct low">2.2%</td>
+	<td data-value="91" class="abs low">(2&nbsp;/&nbsp;91)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/sdk/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/sdk/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/sdk/</a></td>
+	<td data-value="3.21" class="pic low"><span class="cover-fill" style="width: 3px;"></span><span class="cover-empty" style="width:97px;"></span></td>
+	<td data-value="3.21" class="pct low">3.21%</td>
+	<td data-value="6068" class="abs low">(195&nbsp;/&nbsp;6068)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="2942" class="abs low">(0&nbsp;/&nbsp;2942)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="1523" class="abs low">(0&nbsp;/&nbsp;1523)</td>
+	<td data-value="3.24" class="pct low">3.24%</td>
+	<td data-value="6023" class="abs low">(195&nbsp;/&nbsp;6023)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/security/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/security/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/security/</a></td>
+	<td data-value="2.47" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.47" class="pct low">2.47%</td>
+	<td data-value="446" class="abs low">(11&nbsp;/&nbsp;446)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="151" class="abs low">(0&nbsp;/&nbsp;151)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="69" class="abs low">(0&nbsp;/&nbsp;69)</td>
+	<td data-value="2.47" class="pct low">2.47%</td>
+	<td data-value="446" class="abs low">(11&nbsp;/&nbsp;446)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/services/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/services/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/services/</a></td>
+	<td data-value="3.47" class="pic low"><span class="cover-fill" style="width: 3px;"></span><span class="cover-empty" style="width:97px;"></span></td>
+	<td data-value="3.47" class="pct low">3.47%</td>
+	<td data-value="144" class="abs low">(5&nbsp;/&nbsp;144)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="48" class="abs low">(0&nbsp;/&nbsp;48)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="26" class="abs low">(0&nbsp;/&nbsp;26)</td>
+	<td data-value="3.52" class="pct low">3.52%</td>
+	<td data-value="142" class="abs low">(5&nbsp;/&nbsp;142)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/settings/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/settings/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/settings/</a></td>
+	<td data-value="3.5" class="pic low"><span class="cover-fill" style="width: 3px;"></span><span class="cover-empty" style="width:97px;"></span></td>
+	<td data-value="3.5" class="pct low">3.5%</td>
+	<td data-value="457" class="abs low">(16&nbsp;/&nbsp;457)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="122" class="abs low">(0&nbsp;/&nbsp;122)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="60" class="abs low">(0&nbsp;/&nbsp;60)</td>
+	<td data-value="3.51" class="pct low">3.51%</td>
+	<td data-value="456" class="abs low">(16&nbsp;/&nbsp;456)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/shell/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/shell/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/shell/</a></td>
+	<td data-value="5.26" class="pic low"><span class="cover-fill" style="width: 5px;"></span><span class="cover-empty" style="width:95px;"></span></td>
+	<td data-value="5.26" class="pct low">5.26%</td>
+	<td data-value="19" class="abs low">(1&nbsp;/&nbsp;19)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="0" class="abs high">(0&nbsp;/&nbsp;0)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="2" class="abs low">(0&nbsp;/&nbsp;2)</td>
+	<td data-value="5.26" class="pct low">5.26%</td>
+	<td data-value="19" class="abs low">(1&nbsp;/&nbsp;19)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/snippets/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/snippets/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/snippets/</a></td>
+	<td data-value="2.83" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.83" class="pct low">2.83%</td>
+	<td data-value="247" class="abs low">(7&nbsp;/&nbsp;247)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="48" class="abs low">(0&nbsp;/&nbsp;48)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="79" class="abs low">(0&nbsp;/&nbsp;79)</td>
+	<td data-value="2.83" class="pct low">2.83%</td>
+	<td data-value="247" class="abs low">(7&nbsp;/&nbsp;247)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/source_frame/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/source_frame/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/source_frame/</a></td>
+	<td data-value="1.81" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.81" class="pct low">1.81%</td>
+	<td data-value="1213" class="abs low">(22&nbsp;/&nbsp;1213)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="521" class="abs low">(0&nbsp;/&nbsp;521)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="205" class="abs low">(0&nbsp;/&nbsp;205)</td>
+	<td data-value="1.82" class="pct low">1.82%</td>
+	<td data-value="1212" class="abs low">(22&nbsp;/&nbsp;1212)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/sources/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/sources/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/sources/</a></td>
+	<td data-value="2.26" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.26" class="pct low">2.26%</td>
+	<td data-value="4381" class="abs low">(99&nbsp;/&nbsp;4381)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="1870" class="abs low">(0&nbsp;/&nbsp;1870)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="756" class="abs low">(0&nbsp;/&nbsp;756)</td>
+	<td data-value="2.27" class="pct low">2.27%</td>
+	<td data-value="4364" class="abs low">(99&nbsp;/&nbsp;4364)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/terminal/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/terminal/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/terminal/</a></td>
+	<td data-value="1.64" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.64" class="pct low">1.64%</td>
+	<td data-value="61" class="abs low">(1&nbsp;/&nbsp;61)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="26" class="abs low">(0&nbsp;/&nbsp;26)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="10" class="abs low">(0&nbsp;/&nbsp;10)</td>
+	<td data-value="1.64" class="pct low">1.64%</td>
+	<td data-value="61" class="abs low">(1&nbsp;/&nbsp;61)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/text_editor/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/text_editor/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/text_editor/</a></td>
+	<td data-value="2.41" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.41" class="pct low">2.41%</td>
+	<td data-value="914" class="abs low">(22&nbsp;/&nbsp;914)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="474" class="abs low">(0&nbsp;/&nbsp;474)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="161" class="abs low">(0&nbsp;/&nbsp;161)</td>
+	<td data-value="2.42" class="pct low">2.42%</td>
+	<td data-value="908" class="abs low">(22&nbsp;/&nbsp;908)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/text_utils/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/text_utils/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/text_utils/</a></td>
+	<td data-value="1.58" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.58" class="pct low">1.58%</td>
+	<td data-value="253" class="abs low">(4&nbsp;/&nbsp;253)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="149" class="abs low">(0&nbsp;/&nbsp;149)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="63" class="abs low">(0&nbsp;/&nbsp;63)</td>
+	<td data-value="1.58" class="pct low">1.58%</td>
+	<td data-value="253" class="abs low">(4&nbsp;/&nbsp;253)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/timeline/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/timeline/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/timeline/</a></td>
+	<td data-value="1.68" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.68" class="pct low">1.68%</td>
+	<td data-value="3092" class="abs low">(52&nbsp;/&nbsp;3092)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="1089" class="abs low">(0&nbsp;/&nbsp;1089)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="485" class="abs low">(0&nbsp;/&nbsp;485)</td>
+	<td data-value="1.7" class="pct low">1.7%</td>
+	<td data-value="3059" class="abs low">(52&nbsp;/&nbsp;3059)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/timeline_model/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/timeline_model/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/timeline_model/</a></td>
+	<td data-value="2.08" class="pic low"><span class="cover-fill" style="width: 2px;"></span><span class="cover-empty" style="width:98px;"></span></td>
+	<td data-value="2.08" class="pct low">2.08%</td>
+	<td data-value="1729" class="abs low">(36&nbsp;/&nbsp;1729)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="1012" class="abs low">(0&nbsp;/&nbsp;1012)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="232" class="abs low">(0&nbsp;/&nbsp;232)</td>
+	<td data-value="2.1" class="pct low">2.1%</td>
+	<td data-value="1711" class="abs low">(36&nbsp;/&nbsp;1711)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/toolbox_bootstrap/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/toolbox_bootstrap/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/toolbox_bootstrap/</a></td>
+	<td data-value="42.86" class="pic low"><span class="cover-fill" style="width: 42px;"></span><span class="cover-empty" style="width:58px;"></span></td>
+	<td data-value="42.86" class="pct low">42.86%</td>
+	<td data-value="7" class="abs low">(3&nbsp;/&nbsp;7)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="2" class="abs low">(0&nbsp;/&nbsp;2)</td>
+	<td data-value="50" class="pct medium">50%</td>
+	<td data-value="2" class="abs medium">(1&nbsp;/&nbsp;2)</td>
+	<td data-value="42.86" class="pct low">42.86%</td>
+	<td data-value="7" class="abs low">(3&nbsp;/&nbsp;7)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/ui/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/ui/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/ui/</a></td>
+	<td data-value="1.74" class="pic low"><span class="cover-fill" style="width: 1px;"></span><span class="cover-empty" style="width:99px;"></span></td>
+	<td data-value="1.74" class="pct low">1.74%</td>
+	<td data-value="6851" class="abs low">(119&nbsp;/&nbsp;6851)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="3238" class="abs low">(0&nbsp;/&nbsp;3238)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="1310" class="abs low">(0&nbsp;/&nbsp;1310)</td>
+	<td data-value="1.74" class="pct low">1.74%</td>
+	<td data-value="6822" class="abs low">(119&nbsp;/&nbsp;6822)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/utility_shared_worker/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/utility_shared_worker/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/utility_shared_worker/</a></td>
+	<td data-value="21.43" class="pic low"><span class="cover-fill" style="width: 21px;"></span><span class="cover-empty" style="width:79px;"></span></td>
+	<td data-value="21.43" class="pct low">21.43%</td>
+	<td data-value="28" class="abs low">(6&nbsp;/&nbsp;28)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="8" class="abs low">(0&nbsp;/&nbsp;8)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="9" class="abs low">(0&nbsp;/&nbsp;9)</td>
+	<td data-value="21.43" class="pct low">21.43%</td>
+	<td data-value="28" class="abs low">(6&nbsp;/&nbsp;28)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/worker_service/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/worker_service/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/worker_service/</a></td>
+	<td data-value="8.97" class="pic low"><span class="cover-fill" style="width: 8px;"></span><span class="cover-empty" style="width:92px;"></span></td>
+	<td data-value="8.97" class="pct low">8.97%</td>
+	<td data-value="78" class="abs low">(7&nbsp;/&nbsp;78)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="18" class="abs low">(0&nbsp;/&nbsp;18)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="16" class="abs low">(0&nbsp;/&nbsp;16)</td>
+	<td data-value="9.21" class="pct low">9.21%</td>
+	<td data-value="76" class="abs low">(7&nbsp;/&nbsp;76)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/workspace/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/workspace/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/front_end/workspace/</a></td>
+	<td data-value="5.19" class="pic low"><span class="cover-fill" style="width: 5px;"></span><span class="cover-empty" style="width:95px;"></span></td>
+	<td data-value="5.19" class="pct low">5.19%</td>
+	<td data-value="925" class="abs low">(48&nbsp;/&nbsp;925)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="284" class="abs low">(0&nbsp;/&nbsp;284)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="265" class="abs low">(0&nbsp;/&nbsp;265)</td>
+	<td data-value="5.26" class="pct low">5.26%</td>
+	<td data-value="913" class="abs low">(48&nbsp;/&nbsp;913)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/</a></td>
+	<td data-value="21.35" class="pic low"><span class="cover-fill" style="width: 21px;"></span><span class="cover-empty" style="width:79px;"></span></td>
+	<td data-value="21.35" class="pct low">21.35%</td>
+	<td data-value="192" class="abs low">(41&nbsp;/&nbsp;192)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="85" class="abs low">(0&nbsp;/&nbsp;85)</td>
+	<td data-value="9.52" class="pct low">9.52%</td>
+	<td data-value="21" class="abs low">(2&nbsp;/&nbsp;21)</td>
+	<td data-value="22.04" class="pct low">22.04%</td>
+	<td data-value="186" class="abs low">(41&nbsp;/&nbsp;186)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/extract_module/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/extract_module/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/extract_module/</a></td>
+	<td data-value="14.57" class="pic low"><span class="cover-fill" style="width: 14px;"></span><span class="cover-empty" style="width:86px;"></span></td>
+	<td data-value="14.57" class="pct low">14.57%</td>
+	<td data-value="453" class="abs low">(66&nbsp;/&nbsp;453)</td>
+	<td data-value="0.63" class="pct low">0.63%</td>
+	<td data-value="158" class="abs low">(1&nbsp;/&nbsp;158)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="47" class="abs low">(0&nbsp;/&nbsp;47)</td>
+	<td data-value="14.93" class="pct low">14.93%</td>
+	<td data-value="442" class="abs low">(66&nbsp;/&nbsp;442)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/gulp/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/gulp/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/gulp/</a></td>
+	<td data-value="18.95" class="pic low"><span class="cover-fill" style="width: 18px;"></span><span class="cover-empty" style="width:82px;"></span></td>
+	<td data-value="18.95" class="pct low">18.95%</td>
+	<td data-value="95" class="abs low">(18&nbsp;/&nbsp;95)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="2" class="abs low">(0&nbsp;/&nbsp;2)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="12" class="abs low">(0&nbsp;/&nbsp;12)</td>
+	<td data-value="18.95" class="pct low">18.95%</td>
+	<td data-value="95" class="abs low">(18&nbsp;/&nbsp;95)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/hosted_mode/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/hosted_mode/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/hosted_mode/</a></td>
+	<td data-value="28.85" class="pic low"><span class="cover-fill" style="width: 28px;"></span><span class="cover-empty" style="width:72px;"></span></td>
+	<td data-value="28.85" class="pct low">28.85%</td>
+	<td data-value="104" class="abs low">(30&nbsp;/&nbsp;104)</td>
+	<td data-value="10" class="pct low">10%</td>
+	<td data-value="30" class="abs low">(3&nbsp;/&nbsp;30)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="14" class="abs low">(0&nbsp;/&nbsp;14)</td>
+	<td data-value="29.13" class="pct low">29.13%</td>
+	<td data-value="103" class="abs low">(30&nbsp;/&nbsp;103)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/visualize_deps/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/visualize_deps/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/scripts/visualize_deps/</a></td>
+	<td data-value="23.38" class="pic low"><span class="cover-fill" style="width: 23px;"></span><span class="cover-empty" style="width:77px;"></span></td>
+	<td data-value="23.38" class="pct low">23.38%</td>
+	<td data-value="77" class="abs low">(18&nbsp;/&nbsp;77)</td>
+	<td data-value="7.69" class="pct low">7.69%</td>
+	<td data-value="26" class="abs low">(2&nbsp;/&nbsp;26)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="8" class="abs low">(0&nbsp;/&nbsp;8)</td>
+	<td data-value="23.38" class="pct low">23.38%</td>
+	<td data-value="77" class="abs low">(18&nbsp;/&nbsp;77)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/services/"><a href="node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/services/index.html">node-npmtest-chrome-devtools-frontend/node_modules/chrome-devtools-frontend/services/</a></td>
+	<td data-value="7.22" class="pic low"><span class="cover-fill" style="width: 7px;"></span><span class="cover-empty" style="width:93px;"></span></td>
+	<td data-value="7.22" class="pct low">7.22%</td>
+	<td data-value="97" class="abs low">(7&nbsp;/&nbsp;97)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="26" class="abs low">(0&nbsp;/&nbsp;26)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="16" class="abs low">(0&nbsp;/&nbsp;16)</td>
+	<td data-value="7.37" class="pct low">7.37%</td>
+	<td data-value="95" class="abs low">(7&nbsp;/&nbsp;95)</td>
+	</tr>
+
+</tbody>
+</table>
+</div></div>
+<div class="footer">
+    <div class="meta">Generated by <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a> at Fri Apr 21 2017 09:36:47 GMT+0000 (UTC)</div>
+</div>
+</body>
+</html>
